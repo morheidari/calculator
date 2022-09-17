@@ -37,9 +37,13 @@ const operators =[
 
 const digits = [["C", ".", 0], [1, 2, 3], [4, 5, 6], [7, 8, 9]];
 
+const calBox = document.createElement('div');
+calBox.classList.add("calBox");
+document.body.appendChild(calBox);
+
 const display = document.createElement('div');
 display.classList.add('disp');
-document.body.appendChild(display);
+calBox.appendChild(display);
 
 const expresion = document.createElement('div');
 expresion.classList.add("expresion");
@@ -53,7 +57,7 @@ display.appendChild(result);
 
 const keys = document.createElement('div');
 keys.classList.add('keys');
-document.body.appendChild(keys);
+calBox.appendChild(keys);
 
 const digKeys = document.createElement('div');
 digKeys.classList.add('digKeys');
@@ -82,6 +86,15 @@ digits.forEach(row => {
 })});
 
 
+const numbers = document.querySelectorAll('.digit');
+Array.from(numbers).forEach(number => number.addEventListener('click', e => { 
+    const text = e.target.textContent;
+    expresion.textContent += text;
+}))
 
 
-
+const clear = document.querySelector('.Clear');
+clear.addEventListener('click', e => {
+    expresion.textContent="";
+    result.textContent="";
+})

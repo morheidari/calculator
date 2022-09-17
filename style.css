@@ -1,8 +1,17 @@
 body{
     display: flex;
+}
+
+.calBox{
+    justify-self: center;
+    align-self: center;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: fit-content;
+    height: fit-content;
+    border-style: solid ;
 }
 
 .keys{
@@ -23,9 +32,33 @@ body{
     text-align: right;
     font-size: medium;
     justify-self: end;
+    align-self: flex-end;
+    background-color:  white;
+    font-family: sans-serif;
+    width: 208px;
+    height: 30px;
 }
 
-.display{
+.disp{
     display: flex;
     flex-direction: column;
+    width: 200px;
+    height: 50px;
 }
+
+.result{
+    width: 200px;
+    height: 20px
+}
+
+button{
+    width: 50px;
+    height: 50px;
+    border-radius: 0px;
+    background-color: floralwhite;
+    font-family: sans-serif;
+    border-style: solid;
+    border-width: 1px;
+    margin: 1px;
+}
+
