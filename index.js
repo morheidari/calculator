@@ -98,3 +98,4 @@ clear.addEventListener('click', e => {
     expresion.textContent="";
     result.textContent="";
 })
+
