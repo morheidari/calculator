@@ -35,6 +35,10 @@ const operators =[
     symb:"=",
     name:"equal"}];
 
+let f = function(){};
+let fristVal;
+let secVal;
+    
 const digits = [["C", ".", 0], [1, 2, 3], [4, 5, 6], [7, 8, 9]];
 
 const calBox = document.createElement('div');
@@ -71,7 +75,20 @@ operators.forEach(operator => {
     const key = document.createElement('button')
     key.classList.add('operator');
     key.textContent = operator.symb;
-    opKeys.appendChild(key);})
+    opKeys.appendChild(key);
+    key.addEventListener('click', e => {
+        if (operator.name != "equal"){
+            expresion.textContent += operator.symb;
+            lenDisVal = disValue.length;
+            f = operator.func;
+            if (result.textContent!="") fristVal = result.textContent;
+            else fristVal = expresion.textContent.substr(0,lenDisVal);
+        }
+        else {
+            secVal = expresion.textContent.substr(lenDisVal+1);
+            result.textContent = operator.func(f, Number(fristVal), Number(secVal));
+        }
+    })})
 
 digits.forEach(row => {
     const r = document.createElement('div');
@@ -85,11 +102,14 @@ digits.forEach(row => {
     r.appendChild(key);
 })});
 
+let disValue = "";
 
 const numbers = document.querySelectorAll('.digit');
 Array.from(numbers).forEach(number => number.addEventListener('click', e => { 
     const text = e.target.textContent;
+    if (expresion.textContent == "0" && text!=".") expresion.textContent = "";
     expresion.textContent += text;
+    disValue = expresion.textContent;
 }))
 
 
@@ -97,5 +117,8 @@ const clear = document.querySelector('.Clear');
 clear.addEventListener('click', e => {
     expresion.textContent="";
     result.textContent="";
+    disValue = "";
 })
+
+
 
