@@ -1,44 +1,60 @@
-function add(a, b){
-    return a+b;
+function add(a, b) {
+    return Number(a) + Number(b);
 }
 
-function multiply(a, b){
-    return a*b;
+function multiply(a, b) {
+    return a * b;
 }
 
-function subtract(a, b){
-    return a-b;
+function subtract(a, b) {
+    return a - b;
 }
 
-function divide(a, b){
-    return a/b;
+function divide(a, b) {
+    return a / b;
 }
 
-function operate(func, a, b){
+function operate(func, a, b) {
     return func(a, b);
 }
 
-const operators =[
-    {func:add,
-        symb:'+',
-        name:'add',},
-    {func: subtract,
-        symb:'-',
-        name: 'subtract',},
-    {func:multiply,
-            symb:'×',
-            name: 'multiply',},
-    {func:divide,
-        symb:"÷",
-        name:"divide"},
-    {func:operate,
-    symb:"=",
-    name:"equal"}];
+const operators = [
+    {
+        func: add,
+        symb: '+',
+        name: 'add',
+        op: "+",
+    },
+    {
+        func: subtract,
+        symb: '-',
+        name: 'subtract',
+        op: "-",
+    },
+    {
+        func: multiply,
+        symb: '×',
+        name: 'multiply',
+        op: "*",
+    },
+    {
+        func: divide,
+        symb: "÷",
+        name: "divide",
+        op: "/",
+    },
+    {
+        func: operate,
+        symb: "=",
+        name: "equal"
+    }];
 
-let f = function(){};
+let f = function () { };
 let fristVal;
 let secVal;
-    
+let res = 0;
+let flag = 0;
+
 const digits = [["C", ".", 0], [1, 2, 3], [4, 5, 6], [7, 8, 9]];
 
 const calBox = document.createElement('div');
@@ -51,13 +67,9 @@ calBox.appendChild(display);
 
 const expresion = document.createElement('div');
 expresion.classList.add("expresion");
-expresion.textContent="0";
+expresion.textContent = "0";
 display.appendChild(expresion);
 
-const result = document.createElement('div');
-result.classList.add("result");
-result.textContent="";
-display.appendChild(result);
 
 const keys = document.createElement('div');
 keys.classList.add('keys');
@@ -77,47 +89,63 @@ operators.forEach(operator => {
     key.textContent = operator.symb;
     opKeys.appendChild(key);
     key.addEventListener('click', e => {
-        if (operator.name != "equal"){
-            expresion.textContent += operator.symb;
-            lenDisVal = disValue.length;
-            f = operator.func;
-            if (result.textContent!="") fristVal = result.textContent;
-            else fristVal = expresion.textContent.substr(0,lenDisVal);
-        }
-        else {
-            secVal = expresion.textContent.substr(lenDisVal+1);
-            result.textContent = operator.func(f, Number(fristVal), Number(secVal));
-        }
-    })})
+            if (f(1, 1) == undefined) {
+                res = dispVal;
+            }
+            else {
+                fristVal = res;
+                secVal = dispVal;
+                res = f(fristVal, secVal);
+                expresion.textContent = Math.round(res * 100) / 100;
+            }
+            if (operator.name != "equal"){
+                f = operator.func;
+                dispVal = "";
+            }
+            else {
+                f = function (){ };
+                dispVal = res;
+            }
+    })
+})
 
 digits.forEach(row => {
     const r = document.createElement('div');
     r.classList.add('digRow');
     digKeys.appendChild(r);
     row.forEach(digit => {
-    const key = document.createElement('button');
-    if(digit!="C") key.classList.add("digit")
-    else key.classList.add("Clear")
-    key.textContent = digit;
-    r.appendChild(key);
-})});
+        const key = document.createElement('button');
+        if (digit != "C") key.classList.add("digit")
+        else key.classList.add("Clear")
+        key.textContent = digit;
+        r.appendChild(key);
+    })
+});
 
-let disValue = "";
+let dispVal = "";
 
 const numbers = document.querySelectorAll('.digit');
-Array.from(numbers).forEach(number => number.addEventListener('click', e => { 
+Array.from(numbers).forEach(number => number.addEventListener('click', e => {
+    expresion.textContent = dispVal;
     const text = e.target.textContent;
-    if (expresion.textContent == "0" && text!=".") expresion.textContent = "";
-    expresion.textContent += text;
-    disValue = expresion.textContent;
+    if (expresion.textContent.length <= 19) {
+        if (expresion.textContent == "0" && text != ".") {
+            expresion.textContent = "";
+        }
+        if ((expresion.textContent.includes(".") && text != '.') || !expresion.textContent.includes(".")) {
+            expresion.textContent += text;
+        }
+        dispVal = expresion.textContent;
+    }
 }))
 
 
 const clear = document.querySelector('.Clear');
 clear.addEventListener('click', e => {
-    expresion.textContent="";
-    result.textContent="";
-    disValue = "";
+    expresion.textContent = "0";
+    dispVal = "0";
+    res = "0";
+    f = function () { };
 })
 
 
